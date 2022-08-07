@@ -1,17 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Project/Maven2/JavaApp/src/main/java/${packagePath}/${mainClassName}.java to edit this template
- */
-
 package br.com.pdfconverter;
 
-/**
- *
- * @author TECHSTUDIO
- */
-public class PdfConverter {
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import javax.swing.JFileChooser;
 
-    public static void main(String[] args) {
-        System.out.println("Hello World!");
+public class PdfConverter {
+    
+    final JFileChooser fileup = new JFileChooser();
+    File file;
+    
+    public void uploadFile() throws FileNotFoundException, IOException {       
+        int value = fileup.showOpenDialog(null);
+        if (value == JFileChooser.APPROVE_OPTION) {
+            file = fileup.getSelectedFile();
+        }
     }
 }
