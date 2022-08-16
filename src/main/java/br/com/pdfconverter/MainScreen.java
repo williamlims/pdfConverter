@@ -22,12 +22,15 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
  * @author TECHSTUDIO
  */
 public class MainScreen extends javax.swing.JFrame {
-
+    
+    String nome;
+    JFileChooser file = new JFileChooser();
     /**
      * Creates new form MainScreen
      */
     public MainScreen() {
         initComponents();
+        this.nome = "";
     }
 
     /**
@@ -53,6 +56,11 @@ public class MainScreen extends javax.swing.JFrame {
         txtNomeArquivo.setEditable(false);
 
         btnConverter.setText("Converter");
+        btnConverter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConverterActionPerformed(evt);
+            }
+        });
 
         btnLimpar.setText("Limpar");
         btnLimpar.addActionListener(new java.awt.event.ActionListener() {
@@ -106,16 +114,12 @@ public class MainScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAbrirArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirArquivoActionPerformed
-        JFileChooser file = new JFileChooser();
+        
         int testVal = file.showOpenDialog(file);
         if(testVal ==  JFileChooser.APPROVE_OPTION){
             txtNomeArquivo.setText(file.getSelectedFile().getAbsolutePath());
-            String nome = file.getSelectedFile().getName();
-            nome = nome.substring(0, nome.length() - 4);
-            ConvertToPDF(file.getSelectedFile().getAbsolutePath(), "C:/"+nome+".pdf");
-            
-            Component frame = null;
-            JOptionPane.showMessageDialog(frame, "O PDF foi gerado em C:/ ");
+            nome = file.getSelectedFile().getName();
+           
         }
     }//GEN-LAST:event_btnAbrirArquivoActionPerformed
     
@@ -135,6 +139,16 @@ public class MainScreen extends javax.swing.JFrame {
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
         txtNomeArquivo.setText("");
     }//GEN-LAST:event_btnLimparActionPerformed
+
+    private void btnConverterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConverterActionPerformed
+        nome = nome.substring(0, nome.length() - 4);
+        String word = file.getSelectedFile().getAbsolutePath().replace("/", "\\");
+        String username = System.getProperty("user.name");
+        ConvertToPDF(word, "C:\\Users\\"+username+"\\Desktop\\"+nome+".pdf");
+
+        Component frame = null;
+        JOptionPane.showMessageDialog(frame, "O PDF foi gerado na Área de Trabalho!");
+    }//GEN-LAST:event_btnConverterActionPerformed
 
     /**
      * @param args the command line arguments
