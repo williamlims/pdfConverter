@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import org.apache.poi.xwpf.converter.pdf.PdfConverter;
@@ -52,6 +53,11 @@ public class MainScreen extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("PDF Converter");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         txtNomeArquivo.setEditable(false);
 
@@ -109,6 +115,9 @@ public class MainScreen extends javax.swing.JFrame {
                 .addGap(33, 33, 33))
         );
 
+        getAccessibleContext().setAccessibleName("pdfConverter");
+        getAccessibleContext().setAccessibleDescription("");
+
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -150,6 +159,11 @@ public class MainScreen extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(frame, "O PDF foi gerado na Área de Trabalho!");
     }//GEN-LAST:event_btnConverterActionPerformed
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        ImageIcon img = new ImageIcon("../br/com/pdfconverter/img/book.png"); 
+        this.setIconImage(img.getImage());
+    }//GEN-LAST:event_formWindowOpened
+
     /**
      * @param args the command line arguments
      */
@@ -176,7 +190,7 @@ public class MainScreen extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(MainScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+               
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
