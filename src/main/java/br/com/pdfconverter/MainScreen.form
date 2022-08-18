@@ -64,7 +64,7 @@
                   <Component id="btnAbrirArquivo" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnConverter" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="24" max="32767" attributes="0"/>
+              <EmptySpace pref="14" max="32767" attributes="0"/>
               <Component id="barProgresso" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
           </Group>
@@ -73,6 +73,10 @@
   </Layout>
   <SubComponents>
     <Component class="javax.swing.JProgressBar" name="barProgresso">
+      <Properties>
+        <Property name="string" type="java.lang.String" value="0%"/>
+        <Property name="stringPainted" type="boolean" value="true"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtNomeArquivo">
       <Properties>

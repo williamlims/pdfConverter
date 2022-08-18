@@ -11,6 +11,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -58,6 +60,9 @@ public class MainScreen extends javax.swing.JFrame {
                 formWindowOpened(evt);
             }
         });
+
+        barProgresso.setString("0%");
+        barProgresso.setStringPainted(true);
 
         txtNomeArquivo.setEditable(false);
 
@@ -110,7 +115,7 @@ public class MainScreen extends javax.swing.JFrame {
                     .addComponent(btnLimpar)
                     .addComponent(btnAbrirArquivo)
                     .addComponent(btnConverter))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addComponent(barProgresso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33))
         );
@@ -147,21 +152,35 @@ public class MainScreen extends javax.swing.JFrame {
     
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
         txtNomeArquivo.setText("");
+        barProgresso.setValue(0);
+        barProgresso.setString(0+"%");
     }//GEN-LAST:event_btnLimparActionPerformed
 
     private void btnConverterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConverterActionPerformed
         nome = nome.substring(0, nome.length() - 4);
+        int counter = 0;
         String word = file.getSelectedFile().getAbsolutePath().replace("/", "\\");
         String username = System.getProperty("user.name");
         ConvertToPDF(word, "C:\\Users\\"+username+"\\Desktop\\"+nome+".pdf");
-
+        
+        while(counter <= 100){
+            barProgresso.setValue(counter);
+            barProgresso.setString(counter+"%");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            counter = counter + 5;
+        }
+        
         Component frame = null;
         JOptionPane.showMessageDialog(frame, "O PDF foi gerado na Área de Trabalho!");
     }//GEN-LAST:event_btnConverterActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        ImageIcon img = new ImageIcon("../br/com/pdfconverter/img/book.png"); 
-        this.setIconImage(img.getImage());
+        ImageIcon img = new ImageIcon(getClass().getResource("book.png")); 
+        setIconImage(img.getImage());
     }//GEN-LAST:event_formWindowOpened
 
     /**
