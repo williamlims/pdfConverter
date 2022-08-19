@@ -5,20 +5,9 @@
 package br.com.pdfconverter;
 
 import java.awt.Component;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import org.apache.poi.xwpf.converter.pdf.PdfConverter;
-import org.apache.poi.xwpf.converter.pdf.PdfOptions;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
 /**
  *
@@ -26,14 +15,11 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
  */
 public class MainScreen extends javax.swing.JFrame {
     
-    String nome;
-    JFileChooser file = new JFileChooser();
     /**
      * Creates new form MainScreen
      */
     public MainScreen() {
         initComponents();
-        this.nome = "";
     }
 
     /**
@@ -128,27 +114,11 @@ public class MainScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAbrirArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirArquivoActionPerformed
-        
-        int testVal = file.showOpenDialog(file);
-        if(testVal ==  JFileChooser.APPROVE_OPTION){
-            txtNomeArquivo.setText(file.getSelectedFile().getAbsolutePath());
-            nome = file.getSelectedFile().getName();
-           
-        }
+        Converter open = new Converter();
+        open.OpenFile(txtNomeArquivo);
     }//GEN-LAST:event_btnAbrirArquivoActionPerformed
     
-    public void ConvertToPDF(String docPath, String pdfPath){
-        try {
-            InputStream doc = new FileInputStream(new File(docPath));
-            XWPFDocument document = new XWPFDocument(doc);
-            PdfOptions options = PdfOptions.create();
-            OutputStream out = new FileOutputStream(new File(pdfPath));
-            PdfConverter.getInstance().convert(document, out, options);
-        } catch (IOException ex) {
-            Component frame = null;
-            JOptionPane.showMessageDialog(frame, "Ouve um erro ao executar a ação: " +ex);
-        }
-    }
+
     
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
         txtNomeArquivo.setText("");
@@ -157,21 +127,12 @@ public class MainScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLimparActionPerformed
 
     private void btnConverterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConverterActionPerformed
-        nome = nome.substring(0, nome.length() - 4);
-        int counter = 0;
-        String word = file.getSelectedFile().getAbsolutePath().replace("/", "\\");
-        String username = System.getProperty("user.name");
-        ConvertToPDF(word, "C:\\Users\\"+username+"\\Desktop\\"+nome+".pdf");
+        Converter convert = new Converter();
         
-        while(counter <= 100){
-            barProgresso.setValue(counter);
-            barProgresso.setString(counter+"%");
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            counter = counter + 5;
+        convert.start();
+        while(convert.isAlive()){
+            barProgresso.setValue(convert.getPriority());
+            barProgresso.setString(convert.getPriority()+"%");         
         }
         
         Component frame = null;
