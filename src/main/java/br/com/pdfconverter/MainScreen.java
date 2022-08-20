@@ -118,8 +118,7 @@ public class MainScreen extends javax.swing.JFrame {
         open.OpenFile(txtNomeArquivo);
     }//GEN-LAST:event_btnAbrirArquivoActionPerformed
     
-
-    
+  
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
         txtNomeArquivo.setText("");
         barProgresso.setValue(0);
@@ -130,10 +129,10 @@ public class MainScreen extends javax.swing.JFrame {
         Converter convert = new Converter();
         
         convert.start();
-        while(convert.isAlive()){
-            barProgresso.setValue(convert.getPriority());
-            barProgresso.setString(convert.getPriority()+"%");         
-        }
+        //if(convert.isAlive() == false)
+            barProgresso.setValue(100);
+            barProgresso.setString(100+"%"); 
+        //}
         
         Component frame = null;
         JOptionPane.showMessageDialog(frame, "O PDF foi gerado na Área de Trabalho!");
