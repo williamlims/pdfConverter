@@ -5,9 +5,19 @@
 package br.com.pdfconverter;
 
 import java.awt.Component;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
+import org.apache.poi.xwpf.converter.pdf.PdfConverter;
+import org.apache.poi.xwpf.converter.pdf.PdfOptions;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
 /**
  *
@@ -15,6 +25,9 @@ import javax.swing.JOptionPane;
  */
 public class MainScreen extends javax.swing.JFrame {
     
+    String nome;
+    JFileChooser file = new JFileChooser();
+    JProgressBar barProgresso;
     /**
      * Creates new form MainScreen
      */
@@ -115,7 +128,7 @@ public class MainScreen extends javax.swing.JFrame {
 
     private void btnAbrirArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirArquivoActionPerformed
         Converter open = new Converter();
-        open.OpenFile(txtNomeArquivo);
+        open.OpenFile();
     }//GEN-LAST:event_btnAbrirArquivoActionPerformed
     
   
@@ -126,9 +139,14 @@ public class MainScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLimparActionPerformed
 
     private void btnConverterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConverterActionPerformed
-        Converter convert = new Converter();
         
-        convert.start();
+        this.OpenFile(txtNomeArquivo);
+        nome = nome.substring(0, nome.length() - 4);
+        
+        String word = file.getSelectedFile().getAbsolutePath().replace("/", "\\");
+        String username = System.getProperty("user.name");
+        ConvertToPDF(word, "C:\\Users\\"+username+"\\Desktop\\"+nome+".pdf");
+        
         //if(convert.isAlive() == false)
             barProgresso.setValue(100);
             barProgresso.setString(100+"%"); 
@@ -138,6 +156,28 @@ public class MainScreen extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(frame, "O PDF foi gerado na Área de Trabalho!");
     }//GEN-LAST:event_btnConverterActionPerformed
 
+    public void ConvertToPDF(String docPath, String pdfPath){
+        try {
+            InputStream doc = new FileInputStream(new File(docPath));
+            XWPFDocument document = new XWPFDocument(doc);
+            PdfOptions options = PdfOptions.create();
+            OutputStream out = new FileOutputStream(new File(pdfPath));
+            PdfConverter.getInstance().convert(document, out, options);
+        } catch (IOException ex) {
+            Component frame = null;
+            JOptionPane.showMessageDialog(frame, "Ouve um erro ao executar a ação: " +ex);
+        }
+    }
+    
+    public String OpenFile(){
+        int testVal = file.showOpenDialog(file);
+        if(testVal ==  JFileChooser.APPROVE_OPTION){
+            txtNomeArquivo.setText(file.getSelectedFile().getAbsolutePath());
+            nome = file.getSelectedFile().getName();   
+        }
+        return nome;
+    }
+    
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         ImageIcon img = new ImageIcon(getClass().getResource("book.png")); 
         setIconImage(img.getImage());
