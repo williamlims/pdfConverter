@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package br.com.pdfconverter;
 
 import java.awt.Component;
@@ -14,7 +10,6 @@ import java.io.OutputStream;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.JProgressBar;
 import org.apache.poi.xwpf.converter.pdf.PdfConverter;
 import org.apache.poi.xwpf.converter.pdf.PdfOptions;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -27,7 +22,6 @@ public class MainScreen extends javax.swing.JFrame {
     
     String nome;
     JFileChooser file = new JFileChooser();
-    JProgressBar barProgresso;
     /**
      * Creates new form MainScreen
      */
@@ -127,8 +121,7 @@ public class MainScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAbrirArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirArquivoActionPerformed
-        Converter open = new Converter();
-        open.OpenFile();
+        OpenFile();
     }//GEN-LAST:event_btnAbrirArquivoActionPerformed
     
   
@@ -140,7 +133,6 @@ public class MainScreen extends javax.swing.JFrame {
 
     private void btnConverterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConverterActionPerformed
         
-        this.OpenFile(txtNomeArquivo);
         nome = nome.substring(0, nome.length() - 4);
         
         String word = file.getSelectedFile().getAbsolutePath().replace("/", "\\");
