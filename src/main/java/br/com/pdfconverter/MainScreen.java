@@ -123,8 +123,7 @@ public class MainScreen extends javax.swing.JFrame {
     private void btnAbrirArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirArquivoActionPerformed
         OpenFile();
     }//GEN-LAST:event_btnAbrirArquivoActionPerformed
-    
-  
+     
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
         txtNomeArquivo.setText("");
         barProgresso.setValue(0);
@@ -139,15 +138,45 @@ public class MainScreen extends javax.swing.JFrame {
         String username = System.getProperty("user.name");
         ConvertToPDF(word, "C:\\Users\\"+username+"\\Desktop\\"+nome+".pdf");
         
-        //if(convert.isAlive() == false)
-            barProgresso.setValue(100);
-            barProgresso.setString(100+"%"); 
-        //}
+        loader();
         
         Component frame = null;
         JOptionPane.showMessageDialog(frame, "O PDF foi gerado na Área de Trabalho!");
     }//GEN-LAST:event_btnConverterActionPerformed
-
+    
+    public void loader(){
+        barProgresso.setValue(10);
+        barProgresso.setString(10+"%");
+        barProgresso.update(barProgresso.getGraphics());
+        pause(1000);
+        barProgresso.setValue(45);
+        barProgresso.setString(45+"%");
+        barProgresso.update(barProgresso.getGraphics());
+        pause(2000);
+        barProgresso.setValue(67);
+        barProgresso.setString(67+"%");
+        barProgresso.update(barProgresso.getGraphics());
+        pause(3000);
+        barProgresso.setValue(96);
+        barProgresso.setString(96+"%");
+        barProgresso.update(barProgresso.getGraphics());
+        pause(2000);
+        barProgresso.setValue(100);
+        barProgresso.setString(100+"%");
+        barProgresso.update(barProgresso.getGraphics());
+    }
+    
+    public void pause(int time){
+        try
+        {
+            Thread.sleep(time);
+        }
+        catch(InterruptedException ex)
+        {
+            Thread.currentThread().interrupt();
+        }
+    }
+    
     public void ConvertToPDF(String docPath, String pdfPath){
         try {
             InputStream doc = new FileInputStream(new File(docPath));
